@@ -35,7 +35,7 @@ public class Tabuleiro {
 		}
 		return pecas[posicao.getLinha()][posicao.getColuna()];
 	}
-	public void placePeca(Peca peca, Posicao posicao) {
+	public void colocarPeca(Peca peca, Posicao posicao) {
 		if (temUmaPeca(posicao)) {
 			throw new TabuleiroExecao("Já existe uma peça na posição" + posicao);
 		}
