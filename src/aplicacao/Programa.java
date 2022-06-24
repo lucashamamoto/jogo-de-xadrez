@@ -11,10 +11,10 @@ import xadrez.XadrezPosicao;
 public class Programa {
 
 	public static void main(String[] args) {
-		
+
 		Scanner sc = new Scanner(System.in);
 		PartidaXadrez partidaXadrez = new PartidaXadrez();
-		
+
 		while (true) {
 			try {
 				UI.clearScreen();
@@ -22,28 +22,25 @@ public class Programa {
 				System.out.println();
 				System.out.print("Origem: ");
 				XadrezPosicao origem = UI.leiaXadrezPosicao(sc);
-				
-				boolean [][] movimentosPossiveis = partidaXadrez.movimentosPossiveis(origem);
+
+				boolean[][] movimentosPossiveis = partidaXadrez.movimentosPossiveis(origem);
 				UI.clearScreen();
-				UI.printTabuleiro(partidaXadrez.getPecas(), movimentosPossiveis);				
+				UI.printTabuleiro(partidaXadrez.getPecas(), movimentosPossiveis);
 				System.out.println();
 				System.out.print("Destino: ");
 				XadrezPosicao destino = UI.leiaXadrezPosicao(sc);
-				
+
 				PecaDeXadrez caputaPeca = partidaXadrez.performMovimentoXadrez(origem, destino);
-			}
-			catch (XadrezExcecao e) {
+			} catch (XadrezExcecao e) {
 				System.out.print(e.getMessage());
 				sc.nextLine();
-			}
-			catch (InputMismatchException e) {
+			} catch (InputMismatchException e) {
 				System.out.print(e.getMessage());
 				sc.nextLine();
 			}
 
 		}
-		
-		
+
 	}
 
 }
