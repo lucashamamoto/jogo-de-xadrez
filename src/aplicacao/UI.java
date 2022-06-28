@@ -1,11 +1,15 @@
 package aplicacao;
 
+import java.util.Arrays;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import xadrez.Cor;
+import xadrez.PartidaXadrez;
 import xadrez.PecaDeXadrez;
-import xadrez.XadrezPosicao;
+import xadrez.PosicaoXadrez;
 
 public class UI {
 	// https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
@@ -35,14 +39,32 @@ public class UI {
 		System.out.flush();
 	}
 
-	public static XadrezPosicao leiaXadrezPosicao(Scanner sc) {
+	public static PosicaoXadrez leiaPosicaoXadrez(Scanner sc) {
 		try {
 			String s = sc.nextLine();
 			char coluna = s.charAt(0);
 			int linha = Integer.parseInt(s.substring(1));
-			return new XadrezPosicao(coluna, linha);
+			return new PosicaoXadrez(coluna, linha);
 		} catch (RuntimeException e) {
 			throw new InputMismatchException("Erro ao ler posicao xadrez. Valores valido so de a1 a h8.");
+		}
+	}
+
+	public static void printPartida(PartidaXadrez partidaXadrez, List<PecaDeXadrez> capturado) {
+		printTabuleiro(partidaXadrez.getPecas());
+		System.out.println();
+		printPecasCapturadas(capturado);
+		System.out.println();
+		System.out.println("Turno: " + partidaXadrez.getTurno());
+		if (!partidaXadrez.getCheckMate()) {
+			System.out.println("Jogador aguardando: " + partidaXadrez.getJogadorAtual());
+			if (partidaXadrez.getCheck()) {
+				System.out.println("CHECK!");
+			}
+		}
+		else {
+			System.out.println("CHECKMATE!");
+			System.out.println("Vencedor: " + partidaXadrez.getJogadorAtual());
 		}
 	}
 
@@ -82,5 +104,19 @@ public class UI {
 			}
 		}
 		System.out.print(" ");
+	}
+
+	private static void printPecasCapturadas(List<PecaDeXadrez> capturado) {
+		List<PecaDeXadrez> white = capturado.stream().filter(x -> x.getCor() == Cor.WHITE).collect(Collectors.toList());
+		List<PecaDeXadrez> black = capturado.stream().filter(x -> x.getCor() == Cor.BLACK).collect(Collectors.toList());
+		System.out.println("Pecas capturadas:");
+		System.out.print("White: ");
+		System.out.print(ANSI_WHITE);
+		System.out.println(Arrays.toString(white.toArray()));
+		System.out.print(ANSI_RESET);
+		System.out.print("black: ");
+		System.out.print(ANSI_YELLOW);
+		System.out.println(Arrays.toString(black.toArray()));
+		System.out.print(ANSI_RESET);
 	}
 }
