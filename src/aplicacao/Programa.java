@@ -1,5 +1,6 @@
 package aplicacao;
 
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.List;
@@ -36,6 +37,17 @@ public class Programa {
 				PecaDeXadrez caputaPeca = partidaXadrez.performMovimentoXadrez(origem, destino);
 				if (caputaPeca != null) {
 					capturado.add(caputaPeca);
+				}
+
+				if (partidaXadrez.getPromovido() != null) {
+					System.out.print("Digite para qual o peao sera promovido (B/C/T/Q): ");
+					String type = sc.nextLine().toUpperCase();
+					while (!type.equals("B") && !type.equals("C") && !type.equals("T") && !type.equals("Q")) {
+						System.out.print("Valor invalido! Digite para qual o peao sera promovido (B/C/T/Q): ");
+						type = sc.nextLine().toUpperCase();
+
+					}
+					partidaXadrez.substituirPecaPromovida(type);
 				}
 			} catch (XadrezExcecao e) {
 				System.out.print(e.getMessage());
